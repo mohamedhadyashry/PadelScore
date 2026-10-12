@@ -16,6 +16,15 @@ function save(data) {
 
 // cb(data) gets the saved object, or null when nothing is saved.
 function load(cb) {
+  try {
+    readSaved(cb);
+  } catch (e) {
+    // File access isn't available (e.g. in the previewer): act as if nothing is saved.
+    cb(null);
+  }
+}
+
+function readSaved(cb) {
   file.readText({
     uri: URI,
     success: function (res) {

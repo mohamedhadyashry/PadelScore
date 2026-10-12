@@ -35,8 +35,7 @@ number or `DEUCE` / `GOLDEN` / `TIE-BREAK`. Small dots next to each team show se
 
 **Rules used:** best of 3 sets, sets to 6 games with a 2-game lead, tie-break
 (first to 7, lead of 2) at 6-6. The match is saved after every point, so it
-survives the app closing or the band going to sleep. The screen stays on while
-a match is open.
+survives the app closing or the band going to sleep.
 
 On the phone, tap a team name to rename it (e.g. to the players' names), and tap the
 status chip at the top right to reconnect to the band.

@@ -1,6 +1,5 @@
 import router from '@system.router';
 import vibrator from '@system.vibrator';
-import brightness from '@system.brightness';
 import score from '../../common/score.js';
 import store from '../../common/store.js';
 import phone from '../../common/phone-link.js';
@@ -43,7 +42,6 @@ export default {
   },
 
   onInit() {
-    keepScreenOn(true);
     var self = this;
     if (this.mode === 'resume') {
       store.load(function (data) {
@@ -63,10 +61,6 @@ export default {
     }
   },
 
-  onDestroy() {
-    keepScreenOn(false);
-  },
-
   pointA() {
     this.point(0);
   },
@@ -76,6 +70,7 @@ export default {
   },
 
   point(team) {
+    console.info('PadelScore: point for ' + (team === 0 ? 'A' : 'B'));
     if (!cur || cur.winner >= 0) {
       return;
     }
@@ -143,9 +138,19 @@ export default {
     this.u0 = this.u1 = false;
   },
 
+  // Saving and the phone link must never stop the scoring, so errors from
+  // them are only logged (the previewer, for example, can't save files).
   persist(event) {
-    store.save({ cur: cur, hist: hist });
-    phone.send(cur, event);
+    try {
+      store.save({ cur: cur, hist: hist });
+    } catch (e) {
+      console.error('PadelScore: save failed ' + e);
+    }
+    try {
+      phone.send(cur, event);
+    } catch (e) {
+      console.error('PadelScore: phone send failed ' + e);
+    }
   }
 };
 
@@ -162,13 +167,5 @@ function buzz(long) {
     vibrator.vibrate({ mode: long ? 'long' : 'short' });
   } catch (e) {
     // no vibrator: ignore
-  }
-}
-
-function keepScreenOn(on) {
-  try {
-    brightness.setKeepScreenOn({ keepScreenOn: on });
-  } catch (e) {
-    // not supported on this band: ignore
   }
 }
