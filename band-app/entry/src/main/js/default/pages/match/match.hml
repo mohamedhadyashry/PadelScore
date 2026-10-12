@@ -1,0 +1,35 @@
+<stack class="root">
+    <div class="container">
+        <!-- Team A: tap the top half -->
+        <div class="{{zoneA}}" onclick="pointA">
+            <div class="dots">
+                <div for="{{dotsA}}" class="dot dot-a"></div>
+            </div>
+            <text class="{{numA}}">{{labelA}}</text>
+            <text class="team team-a">A</text>
+        </div>
+
+        <!-- Games: tap = undo, long-press = menu -->
+        <div class="{{stripCls}}" onclick="undo" onlongpress="menu">
+            <text class="games">{{gamesText}}</text>
+            <text class="info">{{infoText}}</text>
+        </div>
+
+        <!-- Team B: tap the bottom half -->
+        <div class="{{zoneB}}" onclick="pointB">
+            <text class="team team-b">B</text>
+            <text class="{{numB}}">{{labelB}}</text>
+            <div class="dots">
+                <div for="{{dotsB}}" class="dot dot-b"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Match over -->
+    <div if="{{showWin}}" class="win" onclick="finish" onlongpress="undo">
+        <text class="win-small">WINNER</text>
+        <text class="{{winCls}}">{{winText}}</text>
+        <text class="win-sets">{{finalSets}}</text>
+        <text class="win-small">HOLD = UNDO</text>
+    </div>
+</stack>

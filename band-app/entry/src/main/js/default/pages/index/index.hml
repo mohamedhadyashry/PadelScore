@@ -1,0 +1,14 @@
+<div class="container">
+    <text class="title">PADEL</text>
+    <div class="ball"></div>
+
+    <div if="{{hasSaved}}" class="btn btn-resume" onclick="resume">
+        <text class="btn-text btn-text-dark">RESUME</text>
+    </div>
+    <div class="btn" onclick="startAdvantage">
+        <text class="btn-text">ADVANTAGE</text>
+    </div>
+    <div class="btn" onclick="startGolden">
+        <text class="btn-text">GOLDEN PT</text>
+    </div>
+</div>

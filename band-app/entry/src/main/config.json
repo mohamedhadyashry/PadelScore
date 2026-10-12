@@ -1,0 +1,51 @@
+{
+  "app": {
+    "bundleName": "com.padelscore.band",
+    "vendor": "padelscore",
+    "version": {
+      "code": 1000000,
+      "name": "1.0.0"
+    }
+  },
+  "deviceConfig": {},
+  "module": {
+    "package": "com.padelscore.band",
+    "name": ".MyApplication",
+    "deviceType": [
+      "liteWearable"
+    ],
+    "distro": {
+      "deliveryWithInstall": true,
+      "moduleName": "entry",
+      "moduleType": "entry"
+    },
+    "abilities": [
+      {
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ],
+        "name": "default",
+        "icon": "$media:icon",
+        "label": "PadelScore",
+        "type": "page",
+        "visible": true
+      }
+    ],
+    "js": [
+      {
+        "pages": [
+          "pages/index/index",
+          "pages/match/match"
+        ],
+        "name": "default"
+      }
+    ]
+  }
+}

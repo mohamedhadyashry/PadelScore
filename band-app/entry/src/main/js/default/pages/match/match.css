@@ -1,0 +1,183 @@
+/* Designed for the 194 x 368 screen of Huawei Band 8 / 9 / 10.
+   Sizes are mostly percentages so other band sizes still fit.
+   Colours: A = padel-ball lime, B = electric cyan, on true black (saves battery on AMOLED). */
+
+.root {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background-color: #000000;
+}
+
+/* ---------- team zones ---------- */
+
+.zone {
+    width: 100%;
+    height: 40%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+
+.team {
+    width: 100%;
+    height: 34px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.team-a {
+    color: #6b8019;
+}
+
+.team-b {
+    color: #1f7487;
+}
+
+/* Big point number. Raise font-size if your band supports larger fonts. */
+.num {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 38px;
+}
+
+.num-a {
+    color: #c6f432;
+}
+
+.num-b {
+    color: #3dd6f5;
+}
+
+.dots {
+    height: 12px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.dot-a {
+    background-color: #c6f432;
+}
+
+.dot-b {
+    background-color: #3dd6f5;
+}
+
+/* ---------- middle strip ---------- */
+
+.strip {
+    width: 100%;
+    height: 20%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #141416;
+}
+
+.games {
+    width: 100%;
+    height: 42px;
+    text-align: center;
+    font-size: 38px;
+    color: #ffffff;
+}
+
+.info {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    font-size: 30px;
+    color: #8e8e93;
+}
+
+/* ---------- tap effects ----------
+   Each effect exists twice (…0 / …1). The page flips between them so the
+   animation restarts on every tap. */
+
+.flash-a0 { animation-name: flashA0; animation-duration: 450ms; }
+.flash-a1 { animation-name: flashA1; animation-duration: 450ms; }
+.flash-b0 { animation-name: flashB0; animation-duration: 450ms; }
+.flash-b1 { animation-name: flashB1; animation-duration: 450ms; }
+.big-a0 { animation-name: bigA0; animation-duration: 1000ms; }
+.big-a1 { animation-name: bigA1; animation-duration: 1000ms; }
+.big-b0 { animation-name: bigB0; animation-duration: 1000ms; }
+.big-b1 { animation-name: bigB1; animation-duration: 1000ms; }
+.undo0 { animation-name: undo0; animation-duration: 400ms; }
+.undo1 { animation-name: undo1; animation-duration: 400ms; }
+.pop0 { animation-name: pop0; animation-duration: 300ms; }
+.pop1 { animation-name: pop1; animation-duration: 300ms; }
+
+@keyframes flashA0 { from { background-color: #4d5f13; } to { background-color: #000000; } }
+@keyframes flashA1 { from { background-color: #4d5f13; } to { background-color: #000000; } }
+@keyframes flashB0 { from { background-color: #155a69; } to { background-color: #000000; } }
+@keyframes flashB1 { from { background-color: #155a69; } to { background-color: #000000; } }
+@keyframes bigA0 { from { background-color: #c6f432; } to { background-color: #000000; } }
+@keyframes bigA1 { from { background-color: #c6f432; } to { background-color: #000000; } }
+@keyframes bigB0 { from { background-color: #3dd6f5; } to { background-color: #000000; } }
+@keyframes bigB1 { from { background-color: #3dd6f5; } to { background-color: #000000; } }
+@keyframes undo0 { from { background-color: #5a2a2a; } to { background-color: #141416; } }
+@keyframes undo1 { from { background-color: #5a2a2a; } to { background-color: #141416; } }
+@keyframes pop0 { from { transform: translateY(14px); } to { transform: translateY(0px); } }
+@keyframes pop1 { from { transform: translateY(14px); } to { transform: translateY(0px); } }
+
+/* ---------- winner overlay ---------- */
+
+.win {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+
+.win-small {
+    width: 100%;
+    height: 34px;
+    text-align: center;
+    font-size: 30px;
+    color: #8e8e93;
+}
+
+.win-team {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 38px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.win-a {
+    color: #c6f432;
+}
+
+.win-b {
+    color: #3dd6f5;
+}
+
+.win-sets {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    font-size: 30px;
+    color: #ffffff;
+    margin-bottom: 24px;
+}

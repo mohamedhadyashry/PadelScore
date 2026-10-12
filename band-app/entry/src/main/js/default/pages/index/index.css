@@ -1,0 +1,52 @@
+.container {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+
+.title {
+    width: 100%;
+    height: 44px;
+    text-align: center;
+    font-size: 38px;
+    color: #ffffff;
+    letter-spacing: 4px;
+}
+
+.ball {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background-color: #c6f432;
+    margin-top: 6px;
+    margin-bottom: 18px;
+}
+
+.btn {
+    width: 88%;
+    height: 56px;
+    margin-top: 10px;
+    border-radius: 28px;
+    background-color: #1c1c1e;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-resume {
+    background-color: #c6f432;
+}
+
+.btn-text {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    font-size: 30px;
+    color: #ffffff;
+}
+
+.btn-text-dark {
+    color: #000000;
+}
