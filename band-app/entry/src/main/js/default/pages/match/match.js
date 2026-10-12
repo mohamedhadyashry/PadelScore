@@ -37,18 +37,18 @@ export default {
       if (this.mode === 'resume') {
         cur = score.newMatch(false);
         hist = [];
-        this.render();
+        this.updateView();
         store.load(function (data) {
           if (data && data.cur && data.cur.winner < 0) {
             cur = data.cur;
             hist = data.hist || [];
-            self.render();
+            self.updateView();
           }
         });
       } else {
         cur = score.newMatch(this.mode === 'golden');
         hist = [];
-        this.render();
+        this.updateView();
         this.persist('new');
       }
     } catch (e) {
@@ -75,7 +75,7 @@ export default {
         hist.shift();
       }
       cur = res.state;
-      this.render();
+      this.updateView();
       buzz(res.event !== 'point');
       this.persist(res.event);
     } catch (e) {
@@ -89,7 +89,7 @@ export default {
         return;
       }
       cur = hist.pop();
-      this.render();
+      this.updateView();
       buzz(false);
       this.persist('undo');
     } catch (e) {
@@ -107,7 +107,9 @@ export default {
     router.replace({ uri: 'pages/index/index' });
   },
 
-  render() {
+  // Not called `render`: the build tools add their own `render` (the compiled
+  // template) to the page, and a method with that name breaks the page.
+  updateView() {
     var st = cur;
     var labels = score.pointLabels(st);
     this.labelA = labels.a;
@@ -130,7 +132,7 @@ export default {
   // band itself, and the full error in the log.
   showError(e) {
     console.error('PadelScore: ' + e);
-    this.infoText = ('ERR ' + e).substring(0, 14);
+    this.infoText = ('ERR ' + (e && e.message ? e.message : e)).substring(0, 14);
   },
 
   // Saving and the phone link must never stop the scoring, so errors from
