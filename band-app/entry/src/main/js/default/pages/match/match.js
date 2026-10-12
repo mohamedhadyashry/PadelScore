@@ -15,6 +15,19 @@ export default {
   data: {
     mode: 'advantage', // set by the router: 'advantage' | 'golden' | 'resume'
 
+    flip: 0,
+    // Which flash layer is shown (see match.hml): f = point, b = game/set, u = undo.
+    fA0: false,
+    fA1: false,
+    bA0: false,
+    bA1: false,
+    fB0: false,
+    fB1: false,
+    bB0: false,
+    bB1: false,
+    u0: false,
+    u1: false,
+
     playing: true,
     labelA: '0',
     labelB: '0',
@@ -76,6 +89,7 @@ export default {
       }
       cur = res.state;
       this.updateView();
+      this.flash(team, res.event !== 'point');
       buzz(res.event !== 'point');
       this.persist(res.event);
     } catch (e) {
@@ -90,6 +104,7 @@ export default {
       }
       cur = hist.pop();
       this.updateView();
+      this.flashUndo();
       buzz(false);
       this.persist('undo');
     } catch (e) {
@@ -126,6 +141,46 @@ export default {
     if (this.showWin) {
       this.finalSets = score.setsText(st);
     }
+  },
+
+  // Flashes the side that scored: a soft flash for a point, the full team
+  // colour when a game or set is won.
+  flash(team, big) {
+    this.clearEffects();
+    this.flip = 1 - this.flip;
+    var first = this.flip === 0;
+    if (team === 0) {
+      if (big) {
+        if (first) { this.bA0 = true; } else { this.bA1 = true; }
+      } else {
+        if (first) { this.fA0 = true; } else { this.fA1 = true; }
+      }
+    } else {
+      if (big) {
+        if (first) { this.bB0 = true; } else { this.bB1 = true; }
+      } else {
+        if (first) { this.fB0 = true; } else { this.fB1 = true; }
+      }
+    }
+  },
+
+  flashUndo() {
+    this.clearEffects();
+    this.flip = 1 - this.flip;
+    if (this.flip === 0) { this.u0 = true; } else { this.u1 = true; }
+  },
+
+  clearEffects() {
+    this.fA0 = false;
+    this.fA1 = false;
+    this.bA0 = false;
+    this.bA1 = false;
+    this.fB0 = false;
+    this.fB1 = false;
+    this.bB0 = false;
+    this.bB1 = false;
+    this.u0 = false;
+    this.u1 = false;
   },
 
   // Shows a short error in the middle strip so problems are visible on the
