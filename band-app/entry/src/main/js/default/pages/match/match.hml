@@ -1,48 +1,30 @@
-<!-- Lite wearables don't allow data binding in `class`, so every class here is
-     fixed. Tap effects work by creating a flash layer with `if`: an element's
-     animation plays when it is created, and two copies (…0 / …1) are swapped on
-     each tap so the animation restarts every time. -->
-<stack class="root">
-    <div class="container">
+<!-- Kept deliberately simple: each tap area is a plain div with an onclick and
+     fixed classes, the same pattern as the start screen's buttons. -->
+<div class="root">
+    <div if="{{playing}}" class="container">
         <!-- Team A: tap the top half -->
-        <stack class="zone">
-            <div if="{{fA0}}" class="fx flash-a0"></div>
-            <div if="{{fA1}}" class="fx flash-a1"></div>
-            <div if="{{bA0}}" class="fx big-a0"></div>
-            <div if="{{bA1}}" class="fx big-a1"></div>
-            <div class="zone-content" onclick="pointA">
-                <div class="dots">
-                    <div for="{{dotsA}}" class="dot dot-a"></div>
-                </div>
-                <text class="num num-a">{{labelA}}</text>
-                <text class="team team-a">A</text>
+        <div class="zone" onclick="pointA">
+            <div class="dots">
+                <div for="{{dotsA}}" class="dot dot-a"></div>
             </div>
-        </stack>
+            <text class="num num-a">{{labelA}}</text>
+            <text class="team team-a">A</text>
+        </div>
 
         <!-- Games: tap = undo, long-press = menu -->
-        <stack class="strip">
-            <div if="{{u0}}" class="fx-strip undo0"></div>
-            <div if="{{u1}}" class="fx-strip undo1"></div>
-            <div class="strip-content" onclick="undo" onlongpress="menu">
-                <text class="games">{{gamesText}}</text>
-                <text class="info">{{infoText}}</text>
-            </div>
-        </stack>
+        <div class="strip" onclick="undo" onlongpress="menu">
+            <text class="games">{{gamesText}}</text>
+            <text class="info">{{infoText}}</text>
+        </div>
 
         <!-- Team B: tap the bottom half -->
-        <stack class="zone">
-            <div if="{{fB0}}" class="fx flash-b0"></div>
-            <div if="{{fB1}}" class="fx flash-b1"></div>
-            <div if="{{bB0}}" class="fx big-b0"></div>
-            <div if="{{bB1}}" class="fx big-b1"></div>
-            <div class="zone-content" onclick="pointB">
-                <text class="team team-b">B</text>
-                <text class="num num-b">{{labelB}}</text>
-                <div class="dots">
-                    <div for="{{dotsB}}" class="dot dot-b"></div>
-                </div>
+        <div class="zone" onclick="pointB">
+            <text class="team team-b">B</text>
+            <text class="num num-b">{{labelB}}</text>
+            <div class="dots">
+                <div for="{{dotsB}}" class="dot dot-b"></div>
             </div>
-        </stack>
+        </div>
     </div>
 
     <!-- Match over -->
@@ -53,4 +35,4 @@
         <text class="win-sets">{{finalSets}}</text>
         <text class="win-small">HOLD = UNDO</text>
     </div>
-</stack>
+</div>

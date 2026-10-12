@@ -14,26 +14,16 @@ var hist = [];
 export default {
   data: {
     mode: 'advantage', // set by the router: 'advantage' | 'golden' | 'resume'
-    flip: 0,
 
-    // Which flash layer is shown (see match.hml): f = point, b = game/set, u = undo.
-    fA0: false,
-    fA1: false,
-    bA0: false,
-    bA1: false,
-    fB0: false,
-    fB1: false,
-    bB0: false,
-    bB1: false,
-    u0: false,
-    u1: false,
-
+    playing: true,
     labelA: '0',
     labelB: '0',
     dotsA: [],
     dotsB: [],
     gamesText: '0 - 0',
-    infoText: 'SET 1',
+    // Replaced as soon as the page script runs. If the band keeps showing
+    // LOADING, the script failed to start.
+    infoText: 'LOADING',
 
     showWin: false,
     winA: false,
@@ -43,21 +33,26 @@ export default {
 
   onInit() {
     var self = this;
-    if (this.mode === 'resume') {
-      store.load(function (data) {
-        if (data && data.cur && data.cur.winner < 0) {
-          cur = data.cur;
-          hist = data.hist || [];
-        } else {
-          cur = score.newMatch(false);
-        }
-        self.render();
-      });
-    } else {
-      cur = score.newMatch(this.mode === 'golden');
-      hist = [];
-      this.render();
-      this.persist('new');
+    try {
+      if (this.mode === 'resume') {
+        cur = score.newMatch(false);
+        hist = [];
+        this.render();
+        store.load(function (data) {
+          if (data && data.cur && data.cur.winner < 0) {
+            cur = data.cur;
+            hist = data.hist || [];
+            self.render();
+          }
+        });
+      } else {
+        cur = score.newMatch(this.mode === 'golden');
+        hist = [];
+        this.render();
+        this.persist('new');
+      }
+    } catch (e) {
+      this.showError(e);
     }
   },
 
@@ -70,38 +65,36 @@ export default {
   },
 
   point(team) {
-    console.info('PadelScore: point for ' + (team === 0 ? 'A' : 'B'));
-    if (!cur || cur.winner >= 0) {
-      return;
+    try {
+      if (!cur || cur.winner >= 0) {
+        return;
+      }
+      var res = score.addPoint(cur, team);
+      hist.push(cur);
+      if (hist.length > MAX_UNDO) {
+        hist.shift();
+      }
+      cur = res.state;
+      this.render();
+      buzz(res.event !== 'point');
+      this.persist(res.event);
+    } catch (e) {
+      this.showError(e);
     }
-    var res = score.addPoint(cur, team);
-    hist.push(cur);
-    if (hist.length > MAX_UNDO) {
-      hist.shift();
-    }
-    cur = res.state;
-
-    var big = res.event !== 'point';
-    buzz(big);
-    this.flip = 1 - this.flip;
-    this.clearEffects();
-    this[(big ? 'b' : 'f') + (team === 0 ? 'A' : 'B') + this.flip] = true;
-
-    this.render();
-    this.persist(res.event);
   },
 
   undo() {
-    if (!hist.length) {
-      return;
+    try {
+      if (!hist.length) {
+        return;
+      }
+      cur = hist.pop();
+      this.render();
+      buzz(false);
+      this.persist('undo');
+    } catch (e) {
+      this.showError(e);
     }
-    cur = hist.pop();
-    this.flip = 1 - this.flip;
-    this.clearEffects();
-    this['u' + this.flip] = true;
-    buzz(false);
-    this.render();
-    this.persist('undo');
   },
 
   // Long-press the middle strip: back to the start screen.
@@ -125,6 +118,7 @@ export default {
     this.dotsB = range(st.s[1]);
 
     this.showWin = st.winner >= 0;
+    this.playing = !this.showWin;
     this.winA = st.winner === 0;
     this.winB = st.winner === 1;
     if (this.showWin) {
@@ -132,10 +126,11 @@ export default {
     }
   },
 
-  clearEffects() {
-    this.fA0 = this.fA1 = this.bA0 = this.bA1 = false;
-    this.fB0 = this.fB1 = this.bB0 = this.bB1 = false;
-    this.u0 = this.u1 = false;
+  // Shows a short error in the middle strip so problems are visible on the
+  // band itself, and the full error in the log.
+  showError(e) {
+    console.error('PadelScore: ' + e);
+    this.infoText = ('ERR ' + e).substring(0, 14);
   },
 
   // Saving and the phone link must never stop the scoring, so errors from

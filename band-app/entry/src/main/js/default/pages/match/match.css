@@ -5,6 +5,7 @@
 .root {
     width: 100%;
     height: 100%;
+    flex-direction: column;
     background-color: #000000;
 }
 
@@ -20,22 +21,10 @@
 .zone {
     width: 100%;
     height: 40%;
-    background-color: #000000;
-}
-
-/* Flash layer behind the zone's content. */
-.fx {
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-}
-
-.zone-content {
-    width: 100%;
-    height: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #000000;
 }
 
 .team {
@@ -97,21 +86,10 @@
 .strip {
     width: 100%;
     height: 20%;
-    background-color: #141416;
-}
-
-.fx-strip {
-    width: 100%;
-    height: 100%;
-    background-color: #141416;
-}
-
-.strip-content {
-    width: 100%;
-    height: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #141416;
 }
 
 .games {
@@ -130,33 +108,7 @@
     color: #8e8e93;
 }
 
-/* ---------- tap effects ----------
-   Each effect exists twice (…0 / …1). The page creates the other copy on
-   every tap, so the animation restarts each time. */
-
-.flash-a0 { animation-name: flashA0; animation-duration: 450ms; }
-.flash-a1 { animation-name: flashA1; animation-duration: 450ms; }
-.flash-b0 { animation-name: flashB0; animation-duration: 450ms; }
-.flash-b1 { animation-name: flashB1; animation-duration: 450ms; }
-.big-a0 { animation-name: bigA0; animation-duration: 1000ms; }
-.big-a1 { animation-name: bigA1; animation-duration: 1000ms; }
-.big-b0 { animation-name: bigB0; animation-duration: 1000ms; }
-.big-b1 { animation-name: bigB1; animation-duration: 1000ms; }
-.undo0 { animation-name: undo0; animation-duration: 400ms; }
-.undo1 { animation-name: undo1; animation-duration: 400ms; }
-
-@keyframes flashA0 { from { background-color: #4d5f13; } to { background-color: #000000; } }
-@keyframes flashA1 { from { background-color: #4d5f13; } to { background-color: #000000; } }
-@keyframes flashB0 { from { background-color: #155a69; } to { background-color: #000000; } }
-@keyframes flashB1 { from { background-color: #155a69; } to { background-color: #000000; } }
-@keyframes bigA0 { from { background-color: #c6f432; } to { background-color: #000000; } }
-@keyframes bigA1 { from { background-color: #c6f432; } to { background-color: #000000; } }
-@keyframes bigB0 { from { background-color: #3dd6f5; } to { background-color: #000000; } }
-@keyframes bigB1 { from { background-color: #3dd6f5; } to { background-color: #000000; } }
-@keyframes undo0 { from { background-color: #5a2a2a; } to { background-color: #141416; } }
-@keyframes undo1 { from { background-color: #5a2a2a; } to { background-color: #141416; } }
-
-/* ---------- winner overlay ---------- */
+/* ---------- winner screen ---------- */
 
 .win {
     width: 100%;
