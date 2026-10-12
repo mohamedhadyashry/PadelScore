@@ -17,11 +17,18 @@ export default {
     mode: 'advantage', // set by the router: 'advantage' | 'golden' | 'resume'
     flip: 0,
 
-    zoneA: 'zone',
-    zoneB: 'zone',
-    numA: 'num num-a',
-    numB: 'num num-b',
-    stripCls: 'strip',
+    // Which flash layer is shown (see match.hml): f = point, b = game/set, u = undo.
+    fA0: false,
+    fA1: false,
+    bA0: false,
+    bA1: false,
+    fB0: false,
+    fB1: false,
+    bB0: false,
+    bB1: false,
+    u0: false,
+    u1: false,
+
     labelA: '0',
     labelB: '0',
     dotsA: [],
@@ -30,8 +37,8 @@ export default {
     infoText: 'SET 1',
 
     showWin: false,
-    winCls: 'win-team win-a',
-    winText: '',
+    winA: false,
+    winB: false,
     finalSets: ''
   },
 
@@ -82,11 +89,8 @@ export default {
     var big = res.event !== 'point';
     buzz(big);
     this.flip = 1 - this.flip;
-    var anim = (big ? ' big-' : ' flash-') + (team === 0 ? 'a' : 'b') + this.flip;
-    this.zoneA = team === 0 ? 'zone' + anim : 'zone';
-    this.zoneB = team === 1 ? 'zone' + anim : 'zone';
-    this.numA = 'num num-a' + (team === 0 ? ' pop' + this.flip : '');
-    this.numB = 'num num-b' + (team === 1 ? ' pop' + this.flip : '');
+    this.clearEffects();
+    this[(big ? 'b' : 'f') + (team === 0 ? 'A' : 'B') + this.flip] = true;
 
     this.render();
     this.persist(res.event);
@@ -98,9 +102,8 @@ export default {
     }
     cur = hist.pop();
     this.flip = 1 - this.flip;
-    this.stripCls = 'strip undo' + this.flip;
-    this.zoneA = 'zone';
-    this.zoneB = 'zone';
+    this.clearEffects();
+    this['u' + this.flip] = true;
     buzz(false);
     this.render();
     this.persist('undo');
@@ -127,11 +130,17 @@ export default {
     this.dotsB = range(st.s[1]);
 
     this.showWin = st.winner >= 0;
+    this.winA = st.winner === 0;
+    this.winB = st.winner === 1;
     if (this.showWin) {
-      this.winText = st.winner === 0 ? 'TEAM A' : 'TEAM B';
-      this.winCls = 'win-team ' + (st.winner === 0 ? 'win-a' : 'win-b');
       this.finalSets = score.setsText(st);
     }
+  },
+
+  clearEffects() {
+    this.fA0 = this.fA1 = this.bA0 = this.bA1 = false;
+    this.fB0 = this.fB1 = this.bB0 = this.bB1 = false;
+    this.u0 = this.u1 = false;
   },
 
   persist(event) {
