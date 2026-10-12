@@ -74,16 +74,31 @@ So you need **two tools**: DevEco Studio for the band and Android Studio for the
 4. **Try it on the simulator first:** open `pages/match/match.hml` and use the
    **Previewer**, or start the **Lite Wearable simulator** (*Tools → Device Manager*).
    You can tap and score there with no band at all.
-5. **Sign the app:** a real band only installs signed apps.
-   - In [AppGallery Connect](https://developer.huawei.com/consumer/en/service/josp/agc/index.html),
-     create a project, then add a HarmonyOS app with bundle name `com.padelscore.band`.
-   - Create a debug certificate and a debug profile. You register your band's
-     UDID for the profile. In DevEco, *File → Project Structure → Signing Configs*
-     can do this for you automatically ("Automatically generate signature").
-6. **Install on the band:** follow Huawei's guide *"Running a lite wearable app on a
-   real device"* in the DevEco docs. Usually you turn on developer mode for the band
-   in the **Huawei Health** app, connect it to DevEco through the phone, and click **Run**.
-   The exact steps change between DevEco versions, so trust the current docs here.
+5. **Get your band's UDID:** on the phone, install **HUAWEI DevEco Assistant**
+   from AppGallery. Open it, go to the **Lite Wearable** tab and tap **Connect**.
+   With the band paired in Huawei Health, it shows the band model and its
+   **UDID**. Tap **Copy**.
+6. **Sign the app:** a real band only installs apps signed for that exact band.
+   1. In DevEco: *Build → Generate Key and CSR*. This makes a key store (`.p12`)
+      and a certificate request (`.csr`). Note the passwords.
+   2. In [AppGallery Connect](https://developer.huawei.com/consumer/en/service/josp/agc/index.html):
+      - *Users and permissions → Device management → Add device*: paste the UDID.
+      - *Certificates*: create a **debug** certificate from the `.csr`. Download the `.cer`.
+      - Create a HarmonyOS app with bundle name `com.padelscore.band`.
+      - Create a **debug profile** for it with the certificate and your band selected.
+        Download the `.p7b`.
+   3. In DevEco: *File → Project Structure → Project → Signing Configs*. Fill in
+      the `.p12`, its passwords, the `.cer` and the `.p7b`, then click OK.
+      Newer DevEco versions can also do most of this with **Automatically generate signature**.
+7. **Build and install:**
+   - *Build → Build Hap(s)/APP(s) → Build Hap(s)*. The signed file is in
+     `entry/build/.../outputs/.../*-signed.hap`.
+   - Copy the signed `.hap` to the phone (into a folder named `haps` in the phone's
+     internal storage). In DevEco Assistant tap **Install watch app** and pick it.
+   - The app icon appears in the band's app list.
+   - Install errors: *40 / invalid configuration file* usually means `config.json`
+     doesn't match what the band expects. A version error means the band's
+     software is older than the API level in `build-profile.json5`.
    - To install it permanently and share it with friends, publish it on
      AppGallery (it can be a private / test release).
 
