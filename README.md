@@ -13,6 +13,7 @@ A very simple padel scorer for **Huawei Band 8 / 9 / 10** with an optional
 band-app/    Huawei Band app (HarmonyOS "lite wearable", JavaScript)  -> DevEco Studio
 phone-app/   Android scoreboard app (Kotlin + Jetpack Compose)         -> Android Studio
 tools/       Tests for the scoring logic
+screening/   Twofold: free two-reviewer abstract screening for systematic reviews (open index.html)
 ```
 
 ---
